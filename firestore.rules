@@ -1,0 +1,20 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Usuários
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == uid;
+      allow delete: if false;
+    }
+
+    // Sorteios — apenas admin escreve, todos autenticados leem
+    match /sorteios/{ano} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+        request.auth.uid in ["UID_ADMIN_AQUI", "UID_ADMIN_2"];
+    }
+  }
+}
