@@ -10,6 +10,9 @@ import BottomNav from "@/components/BottomNav";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
+
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Amigo Leitor — Amigo secreto com livros",
   description: "Sorteie um amigo e presenteie com o livro perfeito.",
