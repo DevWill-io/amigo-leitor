@@ -13,10 +13,18 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 
 export const dynamic = "force-dynamic";
 
+// ✅ DEPOIS
 export const metadata: Metadata = {
   title: "Amigo Leitor — Amigo secreto com livros",
-  description: "Sorteie um amigo e presenteie com o livro perfeito.",
-  themeColor: "#C96F4A"
+  description: "Sorteie um amigo e presenteie com o livro perfeito."
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#C96F4A"  // ← movido pra cá
 };
 
 // 👇 Viewport específico para Android/iOS com notch
