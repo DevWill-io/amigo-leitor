@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect as useEffectReact } from "react"; // evita conflito
 import {
   X,
   Search,
@@ -100,6 +101,16 @@ export default function BookFormModal({
     setBusca("");
     toast.success("Dados preenchidos automaticamente!");
   };
+
+// Trava scroll do body quando o modal abre (Android friendly)
+useEffect(() => {
+  if (open) {
+    document.body.classList.add("modal-open");
+  } else {
+    document.body.classList.remove("modal-open");
+  }
+  return () => document.body.classList.remove("modal-open");
+}, [open]);
 
   return (
     <>
