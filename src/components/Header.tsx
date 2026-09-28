@@ -19,47 +19,68 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur bg-cream/80 dark:bg-brown-900/80 border-b border-brown-100 dark:border-brown-700">
-      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <BookOpen className="w-6 h-6 text-gold" />
-          <span className="font-serif text-xl font-bold">Amigo Leitor</span>
+    <header
+      className="
+        sticky top-0 z-40
+        backdrop-blur-md bg-creme/85 dark:bg-marrom-900/85
+        border-b border-bege-300/60 dark:border-marrom-600
+        pt-safe
+      "
+    >
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+          <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-terracota-500" />
+          <span className="font-serif text-lg sm:text-xl font-bold text-marrom-600 dark:text-creme">
+            Amigo Leitor
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-1 sm:gap-2">
+          {/* Links — só no desktop (mobile tem bottom nav) */}
           {user && (
-            <>
-              <Link href="/perfil" className="btn-ghost text-sm hidden sm:inline-flex">
-                <UserIcon className="w-4 h-4" /> Perfil
+            <div className="hidden md:flex items-center gap-1">
+              <Link href="/perfil" className="btn-ghost text-sm">
+                <UserIcon className="w-4 h-4" />
+                <span className="ml-1.5">Perfil</span>
               </Link>
-              <Link href="/amigo" className="btn-ghost text-sm hidden sm:inline-flex">
-                <Gift className="w-4 h-4" /> Meu amigo
+              <Link href="/amigo" className="btn-ghost text-sm">
+                <Gift className="w-4 h-4" />
+                <span className="ml-1.5">Amigo</span>
               </Link>
               {isAdmin && (
-                <Link href="/admin" className="btn-ghost text-sm hidden sm:inline-flex">
-                  <Shield className="w-4 h-4" /> Admin
+                <Link href="/admin" className="btn-ghost text-sm">
+                  <Shield className="w-4 h-4" />
+                  <span className="ml-1.5">Admin</span>
                 </Link>
               )}
-            </>
+            </div>
           )}
+
           <ThemeToggle />
+
           {user ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-1">
               {profile?.photoURL && (
                 <Image
                   src={profile.photoURL}
                   alt={profile.nome}
-                  width={32}
-                  height={32}
-                  className="rounded-full border border-brown-200"
+                  width={36}
+                  height={36}
+                  className="rounded-full border-2 border-bege-300 dark:border-marrom-500 w-8 h-8 sm:w-9 sm:h-9"
                 />
               )}
-              <button onClick={handleLogout} className="btn-ghost text-sm">
+              <button
+                onClick={handleLogout}
+                className="btn-icon"
+                aria-label="Sair"
+              >
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <Link href="/login" className="btn-primary text-sm">Entrar</Link>
+            <Link href="/login" className="btn-primary text-sm px-4">
+              Entrar
+            </Link>
           )}
         </nav>
       </div>
