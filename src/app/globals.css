@@ -2,30 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   BASE — Android-friendly
+   ============================================================ */
 @layer base {
-  html { scroll-behavior: smooth; }
-  body {
-    @apply bg-cream text-brown-800 font-sans antialiased;
+  html {
+    scroll-behavior: smooth;
+    /* Remove delay de 300ms em taps no Android */
+    touch-action: manipulation;
+    /* Evita zoom inesperado no mobile */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
+
+  body {
+    @apply bg-creme text-marrom-600 font-sans antialiased;
+    /* Evita bounce scroll atrapalhando modais */
+    overscroll-behavior-y: none;
+    /* Melhora renderização em Android */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   .dark body {
-    @apply bg-brown-900 text-cream;
+    @apply bg-marrom-800 text-creme;
+  }
+
+  /* Remove highlight azul ao tocar em elementos no Android */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Inputs com fonte mínima de 16px evitam zoom automático no Android */
+  input, select, textarea, button {
+    font-size: 16px;
+  }
+
+  /* Safe area para notch/gesture bar do Android */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Scrollbar discreta */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(74, 46, 31, 0.25);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 
+/* ============================================================
+   COMPONENTES
+   ============================================================ */
 @layer components {
   .card {
-    @apply rounded-2xl bg-white/80 dark:bg-brown-800/70 backdrop-blur shadow-soft border border-brown-100 dark:border-brown-700;
+    @apply rounded-2xl bg-bege-100 shadow-soft border border-bege-300/60;
+    @apply dark:bg-marrom-700/60 dark:border-marrom-600;
   }
+
+  /* Botões com altura mínima de 44px (padrão Android Material) */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brown-600 hover:bg-brown-700 text-cream px-4 py-2 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           bg-terracota-500 hover:bg-terracota-600 active:bg-terracota-700
+           text-creme font-medium transition-colors
+           min-h-[44px] px-4 py-2.5
+           disabled:opacity-50 disabled:cursor-not-allowed
+           shadow-soft active:scale-[0.98] transition-transform;
   }
+
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-brown-200 dark:border-brown-700 hover:bg-brown-50 dark:hover:bg-brown-700/40 px-4 py-2 font-medium transition;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           border border-bege-300 hover:bg-bege-200 active:bg-bege-300
+           text-marrom-600
+           min-h-[44px] px-4 py-2.5
+           transition-colors active:scale-[0.98]
+           dark:border-marrom-500 dark:text-creme dark:hover:bg-marrom-700;
   }
+
+  .btn-icon {
+    @apply inline-flex items-center justify-center rounded-xl
+           min-w-[44px] min-h-[44px] p-2
+           hover:bg-bege-200 active:bg-bege-300
+           transition-colors
+           dark:hover:bg-marrom-700;
+  }
+
   .input {
-    @apply w-full rounded-xl border border-brown-200 dark:border-brown-700 bg-white dark:bg-brown-900/40 px-3 py-2 outline-none focus:ring-2 focus:ring-gold/60;
+    @apply w-full rounded-xl border border-bege-300
+           bg-creme px-3.5 py-3
+           text-base text-marrom-600
+           outline-none transition
+           focus:ring-2 focus:ring-terracota-400/60 focus:border-terracota-400
+           dark:bg-marrom-800/60 dark:border-marrom-500 dark:text-creme;
+    min-height: 44px;
   }
+
   .label {
-    @apply block text-sm font-medium mb-1 text-brown-700 dark:text-brown-100;
+    @apply block text-sm font-medium mb-1.5 text-marrom-500 dark:text-bege-200;
+  }
+
+  /* Padding inferior para não esconder conteúdo atrás da bottom nav */
+  .pb-bottom-nav {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+@layer utilities {
+  /* Momentum scroll suave em Android/iOS */
+  .scroll-smooth-touch {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Trava scroll do body quando modal aberto */
+  body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  /* Safe area helpers */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Ajuste fino de grid para telas Android pequenas */
+  @media (max-width: 360px) {
+    .grid-mobile-compact {
+      gap: 0.5rem;
+    }
+  }
+}
+
+/* ============================================================
+   ANIMAÇÕES
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
